@@ -1,3 +1,5 @@
+import traceback
+
 from bs4 import BeautifulSoup
 from Src.Utilities.convert import get_TMDb_id_from_IMDb_id
 from Src.Utilities.info import get_info_tmdb, is_movie, get_info_imdb
@@ -269,7 +271,8 @@ async def streaming_community(imdb,client,SC_FAST_SEARCH):
             print("MammaMia found results for StreamingCommunity")
             return url,url720,quality,slug
     except Exception as e:
-        print("MammaMia: StreamingCommunity failed",e)
+
+        print("MammaMia: StreamingCommunity failed",e, traceback.format_exc())
         return None,None,None,None
 '''
 async def test_animeworld():
