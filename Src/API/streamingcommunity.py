@@ -43,10 +43,11 @@ async def get_version(client):
 
 async def search(query,date,ismovie, client,SC_FAST_SEARCH,movie_id):
     random_headers = headers.generate()
-    random_headers['Referer'] = "https://streamingcommunity.buzz/"
-    random_headers['Origin'] = "https://streamingcommunity.buzz"
+    random_headers['Referer'] = f"https://streamingcommunity.{SC_DOMAIN}/"
+    random_headers['Origin'] = f"https://streamingcommunity.{SC_DOMAIN}"
     random_headers['Accept'] = 'application/json'  # Assuming the API returns JSON
     random_headers['Content-Type'] = 'application/json'
+    random_headers['X-Requested-With'] = 'XMLHttpRequest'
     print(f"RANDOM HEADERS: {random_headers}")
     #Do a request to get the ID of serie/move and it's slug in the URL
 
