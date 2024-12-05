@@ -45,7 +45,6 @@ async def search(query,date,ismovie, client,SC_FAST_SEARCH,movie_id):
     random_headers = headers.generate()
     random_headers['Referer'] = "https://streamingcommunity.buzz/"
     random_headers['Origin'] = "https://streamingcommunity.buzz"
-    random_headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
     random_headers['Accept'] = 'application/json'  # Assuming the API returns JSON
     random_headers['Content-Type'] = 'application/json'
     print(f"RANDOM HEADERS: {random_headers}")
