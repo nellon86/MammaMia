@@ -1,5 +1,5 @@
 # Usa l'immagine Playwright ufficiale basata su Python
-FROM mcr.microsoft.com/playwright:v1.49.0-focal
+FROM mcr.microsoft.com/playwright:v1.49.0-noble
 
 # Aggiorna i pacchetti di sistema e installa pip se non presente
 RUN apt-get update && apt-get install -y python3-pip
