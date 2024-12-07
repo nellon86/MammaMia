@@ -1,19 +1,19 @@
-# Stage 1: Usa l'immagine di Python come base per installare Python e le dipendenze
+# Stage 1: Usa Python per installare Python e le dipendenze
 FROM python:3.10-slim-buster AS python-base
 
-# Installa Playwright e le dipendenze necessarie
-RUN pip install --no-cache-dir playwright
+# Installa pip e Playwright
+RUN apt-get update && apt-get install -y curl && \
+    pip install --no-cache-dir playwright
 
-# Stage 2: Usa l'immagine di Playwright
+# Stage 2: Usa Playwright come base
 FROM mcr.microsoft.com/playwright:v1.49.0-noble
 
-# Copia Python e i file relativi da python-base
+# Copia Python e pip dallo stage precedente
 COPY --from=python-base /usr/local /usr/local
-COPY --from=python-base /usr/lib/python3.10 /usr/lib/python3.10
 COPY --from=python-base /usr/bin/python3 /usr/bin/python3
 COPY --from=python-base /usr/bin/pip3 /usr/bin/pip3
 
-# Configura Python come eseguibile predefinito
+# Configura Python e pip come comandi predefiniti
 RUN ln -s /usr/bin/python3 /usr/bin/python && \
     ln -s /usr/bin/pip3 /usr/bin/pip
 
