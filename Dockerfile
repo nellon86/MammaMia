@@ -1,18 +1,23 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim-buster
-FROM mcr.microsoft.com/playwright:v1.49.0-noble
-# Set the working directory in the container to /app
+# Usa l'immagine Playwright ufficiale basata su Python
+FROM mcr.microsoft.com/playwright/python:v1.49.0-focal
+
+# Aggiorna i pacchetti di sistema e installa pip se non presente
+RUN apt-get update && apt-get install -y python3-pip
+
+# Imposta la directory di lavoro nel container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app 
-# (including run.py, filmpertutti.py, and requirements.txt)
-ADD . /app
-# Install any needed packages specified in requirements.txt
+# Copia il contenuto della directory corrente nel container
+COPY . /app
+
+# Installa le dipendenze Python
 RUN pip install --no-cache-dir -r requirements.txt
-#RUN playwright install
-#RUN playwright install-deps
-#EXPOSE the port, for now default is 8080 cause it's the only one really allowed by HuggingFace
+
+# Installa Playwright e le dipendenze necessarie per i browser
+RUN playwright install && playwright install-deps
+
+# Espone la porta 8080 per il servizio
 EXPOSE 8080
 
-# Run run.py when the container launches
+# Comando per avviare l'app
 CMD ["python", "run.py"]
