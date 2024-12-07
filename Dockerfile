@@ -8,7 +8,7 @@ WORKDIR /app
 ADD . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-RUN python playwright install
+RUN playwright install
 #EXPOSE the port, for now default is 8080 cause it's the only one really allowed by HuggingFace
 EXPOSE 8080
 
