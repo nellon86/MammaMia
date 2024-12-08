@@ -1,10 +1,10 @@
 # Use an official Python runtime as a parent image
-#FROM python:3.10-slim-buster
-FROM ubuntu:25.04
+FROM python:3.10-slim-buster
+#FROM ubuntu:25.04
 
-RUN apt update
-RUN apt install -y python3
-RUN apt install -y python3-pip
+#RUN apt update
+#RUN apt install -y python3
+#RUN apt install -y python3-pip
 # Set the working directory in the container to /app
 WORKDIR /app
 
