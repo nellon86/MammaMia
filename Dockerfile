@@ -1,6 +1,6 @@
 # Use an official Python runtime as a parent image
 #FROM python:3.10-slim-buster
-FROM ubuntu:20.04
+FROM ubuntu:25.04
 
 RUN apt update
 RUN apt install -y python3
