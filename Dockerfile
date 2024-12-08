@@ -3,7 +3,7 @@
 FROM ubuntu:20.04
 
 RUN apt update
-RUN apt install -y python3.10
+RUN apt install -y python3
 RUN apt install -y python3-pip
 # Set the working directory in the container to /app
 WORKDIR /app
