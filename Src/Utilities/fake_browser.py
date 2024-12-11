@@ -40,14 +40,25 @@ def unzip():
         print("Unzip browser")
 
         zip_prefix = os.path.join(extract_path, "chromium.zip.")
-        #zip_parts = glob.glob(zip_prefix + '*')
+        parts = glob.glob(zip_prefix + '*')
+        n = len(parts)
+
+        temp_zip_name = os.path.join(extract_path, "chromium.zip")
+        with open(temp_zip_name, "wb") as outfile:
+            for i in range(1, n + 1):
+                filename = zip_prefix + str(i).zfill(3)
+                with open(filename, "rb") as infile:
+                    outfile.write(infile.read())
 
         subprocess.run(
-            ["unzip", "-o", f"{zip_prefix}001"],
+            ["unzip", "-o", temp_zip_name],
             check=True,
             text=True,
             capture_output=True
         )
+
+        os.remove(temp_zip_name)
+
     print("Browser ready")
 
 
