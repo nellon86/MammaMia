@@ -2,7 +2,6 @@ import glob
 import json
 import os
 import subprocess
-from multiprocessing import Pool
 from urllib.parse import urlparse
 
 from pyppeteer import launch
@@ -44,7 +43,7 @@ def unzip():
         zip_parts = glob.glob(zip_prefix + '*')
 
         subprocess.run(
-            ["unzip", "-o", zip_parts[0]],
+            ["unzip", "-o", f"{zip_prefix}.001"],
             check=True,
             text=True,
             capture_output=True
