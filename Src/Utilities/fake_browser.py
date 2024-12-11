@@ -1,6 +1,7 @@
 import glob
 import json
 import os
+import stat
 import subprocess
 from urllib.parse import urlparse
 
@@ -59,7 +60,14 @@ def unzip():
 
         os.remove(temp_zip_name)
 
+        make_executable(chromium_path)
+
     print("Browser ready")
+
+
+def make_executable(path):
+    st = os.stat(path)
+    os.chmod(path, st.st_mode | stat.S_IEXEC)
 
 
 async def execute(api: str, more_headers: dict = None, get_json: bool = True):
