@@ -35,16 +35,6 @@ def unzip():
 '''
 
 
-def unzip_part(zip_part):
-    result = subprocess.run(
-        ["unzip", "-o", zip_part],
-        check=True,
-        text=True,
-        capture_output=True
-    )
-    return result.stdout
-
-
 def unzip():
     extract_path = os.path.join(os.getcwd(), "browser")
     if not os.path.exists(os.path.join(extract_path, "chrome")):
@@ -53,8 +43,12 @@ def unzip():
         zip_prefix = os.path.join(extract_path, "chromium.zip.")
         zip_parts = glob.glob(zip_prefix + '*')
 
-        with Pool(processes=os.cpu_count()) as pool:
-            pool.map(unzip_part, zip_parts)
+        subprocess.run(
+            ["unzip", "-o", zip_parts[0]],
+            check=True,
+            text=True,
+            capture_output=True
+        )
     print("Browser ready")
 
 
