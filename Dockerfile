@@ -1,12 +1,10 @@
-FROM ubuntu:20.04
-
-RUN apt-get update && apt-get install -y unzip && apt-get clean
-
 # Use an official Python runtime as a parent image
 FROM python:3.10-slim-buster
 
 # Set the working directory in the container to /app
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y unzip && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy the current directory contents into the container at /app
 # (including run.py, filmpertutti.py, and requirements.txt)
