@@ -1,14 +1,15 @@
 import glob
 import json
 import os
-import zipfile
+import subprocess
+from multiprocessing import Pool
 from urllib.parse import urlparse
 
 from pyppeteer import launch
 
 chromium_path = os.path.join(os.getcwd(), "browser", "chrome")
 
-
+'''
 def unzip():
     extract_path = os.path.join(os.getcwd(), "browser")
     if not os.path.exists(os.path.join(extract_path, "chrome")):
@@ -31,6 +32,30 @@ def unzip():
         os.remove(temp_zip_name)
 
     print("Browser ready")
+'''
+
+
+def unzip_part(zip_part):
+    result = subprocess.run(
+        ["unzip", "-o", zip_part],
+        check=True,
+        text=True,
+        capture_output=True
+    )
+    return result.stdout
+
+
+def unzip():
+    extract_path = os.path.join(os.getcwd(), "browser")
+    if not os.path.exists(os.path.join(extract_path, "chrome")):
+        print("Unzip browser")
+
+        zip_prefix = os.path.join(extract_path, "chromium.zip.")
+        zip_parts = glob.glob(zip_prefix + '*')
+
+        with Pool(processes=os.cpu_count()) as pool:
+            pool.map(unzip_part, zip_parts)
+    print("Browser ready")
 
 
 async def execute(api: str, more_headers: dict = None, get_json: bool = True):
@@ -39,7 +64,8 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
     parsed_url = urlparse(api)
     base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
 
-    browser = await launch(headless=True, executablePath=chromium_path, args=["--no-sandbox", "--disable-setuid-sandbox"])
+    browser = await launch(headless=True, executablePath=chromium_path,
+                           args=["--no-sandbox", "--disable-setuid-sandbox"])
     page = await browser.newPage()
 
     await page.goto(base_url)
