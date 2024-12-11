@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     wget \
     ca-certificates \
+    libgbm1 \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # Copy the current directory contents into the container at /app
