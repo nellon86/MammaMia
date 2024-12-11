@@ -51,7 +51,7 @@ def unzip():
                     outfile.write(infile.read())
 
         subprocess.run(
-            ["unzip", "-o", temp_zip_name],
+            ["unzip", "-o", temp_zip_name, "-d", extract_path],
             check=True,
             text=True,
             capture_output=True
