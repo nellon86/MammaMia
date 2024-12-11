@@ -77,7 +77,8 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
     base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
 
     browser = await launch(headless=True, executablePath=chromium_path,
-                           args=["--no-sandbox", "--disable-setuid-sandbox"])
+                           args=["--no-sandbox", "--disable-setuid-sandbox", '--disable-gpu'],
+                           dumpio=True)
     page = await browser.newPage()
 
     await page.goto(base_url)
