@@ -1,18 +1,9 @@
 # Use an official Python runtime as a parent image
 FROM python:3.10-slim-buster
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nmap \
-    chromium \
-    harfbuzz \
-    libfreetype6 \
-    fonts-freefont-ttf \
-    libnss3 && \
-    # Pulisci la cache di apt per ridurre le dimensioni dell'immagine
-    rm -rf /var/lib/apt/lists/*
-
-# Imposta la variabile di ambiente per il browser Chromium
-ENV CHROME_BIN=/usr/bin/chromium
+RUN apt-get install -y wget
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
 
 
 # Set the working directory in the container to /app
