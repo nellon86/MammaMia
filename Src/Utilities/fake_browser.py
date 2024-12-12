@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 from pyppeteer import launch
 
 #chromium_path = os.path.join(os.getcwd(), "browser", "chrome")
-chromium_path = "/usr/bin/chromium-browser"
+chromium_path = "/usr/bin/chromium"
 
 '''
 def unzip():
