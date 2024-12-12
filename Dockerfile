@@ -1,16 +1,18 @@
 # Use an official Python runtime as a parent image
 FROM python:3.10-slim-buster
 
-RUN apk update && apk add --no-cache nmap && \
-    echo @edge https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
-    echo @edge https://dl-cdn.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories && \
-    apk update && \
-    apk add --no-cache \
-      chromium \
-      harfbuzz \
-      "freetype>2.8" \
-      ttf-freefont \
-      nss
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nmap \
+    chromium \
+    harfbuzz \
+    libfreetype6 \
+    fonts-freefont-ttf \
+    libnss3 && \
+    # Pulisci la cache di apt per ridurre le dimensioni dell'immagine
+    rm -rf /var/lib/apt/lists/*
+
+# Imposta la variabile di ambiente per il browser Chromium
+ENV CHROME_BIN=/usr/bin/chromium
 
 
 # Set the working directory in the container to /app
