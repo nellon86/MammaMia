@@ -1,23 +1,14 @@
-FROM debian:bullseye
-
-# Install basic dependencies
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    fonts-liberation \
-    --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
-
-# Add Google Chrome repository
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/bin/chromium-browser.gpg
-
-# Install Google Chrome
-RUN apt-get update && apt-get install -y \
-    google-chrome-stable && \
-    rm -rf /var/lib/apt/lists/*
-
 # Use an official Python runtime as a parent image
 FROM python:3.10-slim-buster
+
+RUN apt-get update && apt-get install -y \
+    nmap \
+    chromium \
+    fonts-freefont-ttf \
+    libharfbuzz0b \
+    libfreetype6 \
+    libnss3 && \
+    rm -rf /var/lib/apt/lists/
 
 # Set the working directory in the container to /app
 WORKDIR /app
