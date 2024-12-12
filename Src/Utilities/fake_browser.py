@@ -7,7 +7,8 @@ from urllib.parse import urlparse
 
 from pyppeteer import launch
 
-chromium_path = os.path.join(os.getcwd(), "browser", "chrome")
+#chromium_path = os.path.join(os.getcwd(), "browser", "chrome")
+chromium_path = "/usr/bin/chromium-browser"
 
 '''
 def unzip():
@@ -77,7 +78,7 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
     base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
 
     browser = await launch(headless=True, executablePath=chromium_path,
-                           args=["--no-sandbox", "--disable-setuid-sandbox", '--disable-gpu'],
+                           args=["--no-sandbox", '--disable-gpu'],
                            dumpio=True)
     page = await browser.newPage()
 
