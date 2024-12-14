@@ -129,7 +129,7 @@ async def get_episode_link(episode_id, tid, version):
     api = f"https://streamingcommunity.{SC_DOMAIN}/iframe/{tid}?episode_id={episode_id}&next_episode=1"
     response = await fake_browser.execute(api, get_json=False)
 
-    soup = BeautifulSoup(response.text, "lxml")
+    soup = BeautifulSoup(response, "lxml")
     iframe = soup.find("iframe").get("src")
     vixid = iframe.split("/embed/")[1].split("?")[0]
 
