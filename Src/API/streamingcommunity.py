@@ -228,6 +228,7 @@ async def streaming_community(imdb, client, SC_FAST_SEARCH):
             return url, url720, quality, slug
         if ismovie == 0:
             episode_id = await get_season_episode_id(tid, slug, season, episode, version)
+            print(f"Episode id: {episode_id}")
             url, url720, quality = await get_episode_link(episode_id, tid, version)
             print("MammaMia found results for StreamingCommunity")
             return url, url720, quality, slug
