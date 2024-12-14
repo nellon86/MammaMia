@@ -90,6 +90,7 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
         "Referer": f"{base_url}",
         "Origin": f"{base_url}"
     }
+    print(f"HEADERSSSSS ================== {headers}")
     if more_headers is not None:
         headers.update(more_headers)
 
