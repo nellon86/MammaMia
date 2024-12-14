@@ -26,7 +26,7 @@ headers = Headers()
 async def get_version():
     try:
         api = f'https://streamingcommunity.{SC_DOMAIN}/richiedi-un-titolo'
-        response = await fake_browser.execute(api)
+        response = await fake_browser.execute(api, get_json=False)
         soup = BeautifulSoup(response, "lxml")
 
         version = json.loads(soup.find("div", {"id": "app"}).get("data-page"))['version']
