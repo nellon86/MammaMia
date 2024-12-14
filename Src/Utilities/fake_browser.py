@@ -15,7 +15,7 @@ async def setup_browser():
     if not browser:
         browser = await playwright.chromium.launch(headless=True,
                                                    executable_path=chromium_path,
-                                                   args=["--no-sandbox", '--disable-gpu', '--disable-dev-shm-usage'])
+                                                   args=["--no-sandbox", '--disable-gpu', '--disable-dev-shm-usage', '--enable-logging=stderr', '--v=1'])
 
 
 async def close():
@@ -26,6 +26,7 @@ async def close():
     if playwright:
         await playwright.stop()
         playwright = None
+
 
 async def execute(api: str, more_headers: dict = None, get_json: bool = True):
     global browser
