@@ -18,7 +18,7 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
                            dumpio=True)
     page = await browser.newPage()
 
-    await page.goto(base_url)
+    await page.goto(base_url, timeout=60000)
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
@@ -26,7 +26,6 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
         "Referer": f"{base_url}",
         "Origin": f"{base_url}"
     }
-    print(f"HEADERSSSSS ================== {headers}")
     if more_headers is not None:
         headers.update(more_headers)
 
