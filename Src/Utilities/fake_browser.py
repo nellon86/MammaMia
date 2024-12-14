@@ -3,7 +3,6 @@ from urllib.parse import urlparse
 
 from pyppeteer import launch
 
-
 chromium_path = "/usr/bin/chromium"
 
 
@@ -13,12 +12,13 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
     parsed_url = urlparse(api)
     base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
 
-    browser = await launch(headless=True, executablePath=chromium_path,
-                           args=["--no-sandbox", '--disable-gpu'],
-                           dumpio=True)
+    browser = await launch(headless=True,
+                           executablePath=chromium_path,
+                           args=["--no-sandbox", '--disable-gpu', '--disable-dev-shm-usage'])
     page = await browser.newPage()
+    await page.setJavaScriptEnabled(False)
 
-    await page.goto(base_url, timeout=60000)
+    await page.goto(base_url, waitUntil='domcontentloaded', timeout=0)
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
