@@ -16,7 +16,6 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
                            executablePath=chromium_path,
                            args=["--no-sandbox", '--disable-gpu', '--disable-dev-shm-usage'])
     page = await browser.newPage()
-    await page.setJavaScriptEnabled(False)
 
     await page.goto(base_url, waitUntil='domcontentloaded', timeout=0)
 
