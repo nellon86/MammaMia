@@ -76,10 +76,11 @@ async def get_film(tid, version):
 
     api = f'https://streamingcommunity.{SC_DOMAIN}/iframe/{tid}'
     response = await fake_browser.execute(api, more_headers, get_json=False)
+    print(response)
 
     iframe = BeautifulSoup(response, 'lxml')
     iframe = iframe.find('iframe').get("src")
-    print(iframe)
+
     vixid = iframe.split("/embed/")[1].split("?")[0]
 
     response = await fake_browser.execute(iframe, more_headers, get_json=False)
