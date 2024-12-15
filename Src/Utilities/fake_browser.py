@@ -1,8 +1,10 @@
+import os.path
 from urllib.parse import urlparse
 
 from playwright.async_api import async_playwright
 
-chromium_path = "/usr/bin/chromium"
+#chromium_path = "/usr/bin/chromium"
+chromium_path = os.path.join(os.getcwd(), "chrome-win", "chrome.exe")
 
 playwright = None
 browser = None
@@ -15,7 +17,7 @@ async def setup_browser():
     if not browser:
         browser = await playwright.chromium.launch(headless=True,
                                                    executable_path=chromium_path,
-                                                   args=["--no-sandbox", '--disable-gpu', '--disable-dev-shm-usage', '--enable-logging=stderr', '--v=1'])
+                                                   args=["--no-sandbox", '--disable-gpu', '--disable-dev-shm-usage'])
 
 
 async def close():
@@ -33,10 +35,12 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
     await setup_browser()
 
     context = await browser.new_context()
-    await context.new_page()
+    page = await context.new_page()
 
     parsed_url = urlparse(api)
     base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+
+    await context.request.get(base_url)
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
