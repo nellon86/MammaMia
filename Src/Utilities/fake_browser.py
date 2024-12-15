@@ -1,10 +1,8 @@
-import os.path
 from urllib.parse import urlparse
 
 from playwright.async_api import async_playwright
 
-#chromium_path = "/usr/bin/chromium"
-chromium_path = os.path.join(os.getcwd(), "chrome-win", "chrome.exe")
+chromium_path = "/usr/bin/chromium"
 
 playwright = None
 browser = None
