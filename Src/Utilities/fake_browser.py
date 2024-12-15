@@ -27,15 +27,18 @@ async def close():
         await playwright.stop()
         playwright = None
 
+
 async def execute(api: str, more_headers: dict = None, get_json: bool = True):
     global browser
     await setup_browser()
 
     context = await browser.new_context()
-    await context.new_page()
+    page = await context.new_page()
 
     parsed_url = urlparse(api)
     base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+
+    await context.request.get(base_url)
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
