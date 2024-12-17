@@ -2,7 +2,7 @@ import traceback
 
 from bs4 import BeautifulSoup
 
-from Src.Utilities import fake_browser
+from Src.Utilities import web
 from Src.Utilities.convert import get_TMDb_id_from_IMDb_id
 from Src.Utilities.info import get_info_tmdb, is_movie, get_info_imdb
 import Src.Utilities.config as config
@@ -21,12 +21,13 @@ Public_Instance = config.Public_Instance
 Alternative_Link = env_vars.get('ALTERNATIVE_LINK')
 
 headers = Headers()
+request_manager = web.RequestManager()
 
 
 async def get_version():
     try:
         api = f'https://streamingcommunity.{SC_DOMAIN}/richiedi-un-titolo'
-        response = await fake_browser.execute(api, get_json=False)
+        response = await request_manager.get(api, get_json=False)
         soup = BeautifulSoup(response, "lxml")
 
         version = json.loads(soup.find("div", {"id": "app"}).get("data-page"))['version']
@@ -38,7 +39,7 @@ async def get_version():
 
 
 async def search(query, ismovie, client, SC_FAST_SEARCH, movie_id):
-    response = await fake_browser.execute(query)
+    response = await request_manager.get(query)
     print(response)
 
     for item in response['data']:
@@ -52,7 +53,7 @@ async def search(query, ismovie, client, SC_FAST_SEARCH, movie_id):
         if type == ismovie:
             if SC_FAST_SEARCH == "0":
                 api = f'https://streamingcommunity.{SC_DOMAIN}/titles/{tid}-{slug}'
-                response = await fake_browser.execute(api, get_json=False)
+                response = await request_manager.get(api, get_json=False)
                 soup = BeautifulSoup(response, "lxml")
                 data = json.loads(soup.find("div", {"id": "app"}).get("data-page"))
                 version = data['version']
@@ -75,14 +76,14 @@ async def get_film(tid, version):
     }
 
     api = f'https://streamingcommunity.{SC_DOMAIN}/iframe/{tid}'
-    response = await fake_browser.execute(api, more_headers, get_json=False)
+    response = await request_manager.get(api, more_headers, get_json=False)
 
     iframe = BeautifulSoup(response, 'lxml')
     iframe = iframe.find('iframe').get("src")
 
     vixid = iframe.split("/embed/")[1].split("?")[0]
 
-    response = await fake_browser.execute(iframe, more_headers, get_json=False)
+    response = await request_manager.get(iframe, more_headers, get_json=False)
     soup = BeautifulSoup(response, "lxml")
     script = soup.find("body").find("script").text
     token = re.search(r"'token':\s*'(\w+)'", script).group(1)
@@ -118,7 +119,7 @@ async def get_season_episode_id(tid, slug, season, episode, version):
     }
 
     api = f'https://streamingcommunity.{SC_DOMAIN}/titles/{tid}-{slug}/stagione-{season}'
-    response = await fake_browser.execute(api, more_headers)
+    response = await request_manager.get(api, more_headers)
     json_response = response.get('props', {}).get('loadedSeason', {}).get('episodes', [])
     for dict_episode in json_response:
         if dict_episode['number'] == episode:
@@ -127,7 +128,7 @@ async def get_season_episode_id(tid, slug, season, episode, version):
 
 async def get_episode_link(episode_id, tid, version):
     api = f"https://streamingcommunity.{SC_DOMAIN}/iframe/{tid}?episode_id={episode_id}&next_episode=1"
-    response = await fake_browser.execute(api, get_json=False)
+    response = await request_manager.get(api, get_json=False)
 
     soup = BeautifulSoup(response, "lxml")
     iframe = soup.find("iframe").get("src")
@@ -138,7 +139,7 @@ async def get_episode_link(episode_id, tid, version):
         "x-inertia-version": version
     }
 
-    response = await fake_browser.execute(iframe, more_headers, get_json=False)
+    response = await request_manager.get(iframe, more_headers, get_json=False)
     soup = BeautifulSoup(response, "lxml")
     script = soup.find("body").find("script").text
     token = re.search(r"'token':\s*'(\w+)'", script).group(1)
@@ -235,18 +236,3 @@ async def streaming_community(imdb, client, SC_FAST_SEARCH):
     except Exception as e:
         print("MammaMia: StreamingCommunity failed", e, traceback.format_exc())
         return None, None, None, None
-
-
-'''
-async def test_animeworld():
-    from curl_cffi.requests import AsyncSession
-    async with AsyncSession() as client:
-        # Replace with actual id, for example 'anime_id:episode' format
-        test_id = "tt0095765"  # This is an example ID format
-        results = await streaming_community(test_id, client,"0")
-        print(results)
-
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(test_animeworld())
-'''

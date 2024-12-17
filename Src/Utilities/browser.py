@@ -54,3 +54,4 @@ async def execute(api: str, more_headers: dict = None, get_json: bool = True):
         return await api_response.json() if get_json else await api_response.text()
 
     return None
+
