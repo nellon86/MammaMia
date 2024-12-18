@@ -1,5 +1,3 @@
-import asyncio
-
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse, HTMLResponse
 from Src.API.filmpertutti import filmpertutti
@@ -10,7 +8,6 @@ from Src.API.streamingwatch import streamingwatch
 import Src.Utilities.config as config
 from Src.API.okru import okru_get_url
 from Src.API.animeworld import animeworld
-from Src.Utilities import browser
 from Src.Utilities.dictionaries import okru, STREAM, extra_sources, webru_vary, webru_dlhd, provider_map, skystreaming
 from Src.API.epg import tivu, tivu_get, epg_guide, convert_bho_1, convert_bho_2, convert_bho_3
 from Src.API.webru import webru, get_skystreaming
@@ -288,30 +285,33 @@ async def addon_stream(request: Request, config, type, id, ):
                     if url_streaming_community is not None:
                         print(f"StreamingCommunity Found Results for {id}")
                         if quality_sc == "1080":
-                            streams['streams'].append({"name": f'MammaMia 1080p Max',
-                                                       'title': f'{HF}StreamingCommunity\n {slug_sc.replace("-", " ").capitalize()}',
+                            streams['streams'].append({"name": '🍕 MammaMia',
+                                                       'title': 'StreamingCommunity\n1080p',
                                                        'url': url_streaming_community})
-                            streams['streams'].append({"name": f'MammaMia 720p Max',
-                                                       'title': f'{HF}StreamingCommunity {slug_sc.replace("-", "").capitalize()}',
+                            streams['streams'].append({"name": f'🍕 MammaMia',
+                                                       'title': f'StreamingCommunity\n720p',
                                                        'url': url_720_streaming_community})
                         else:
-                            streams['streams'].append(
-                                {'title': f'{HF}StreamingCommunity 720p Max', 'url': url_streaming_community})
+                            streams['streams'].append({
+                                'name': '🍕 MammaMia',
+                                'title': 'StreamingCommunity\n720p',
+                                'url': url_streaming_community
+                            })
                 if provider_maps['LORDCHANNEL'] == "1":
                     url_lordchannel, quality_lordchannel = await lordchannel(id, client)
                     if quality_lordchannel == "FULL HD" and url_lordchannel != None:
                         print(f"LordChannel Found Results for {id}")
                         streams['streams'].append(
-                            {'name': "MammaMia 1080p", 'title': f'{HF}LordChannel', 'url': url_lordchannel})
+                            {'name': "🍕 MammaMia", 'title': 'LordChannel\n1080p', 'url': url_lordchannel})
                     elif url_lordchannel != None:
                         print(f"LordChannel Found Results for {id}")
                         streams['streams'].append(
-                            {"name": "MammaMia 720p", 'title': f'{HF}LordChannel 720p', 'url': url_lordchannel})
+                            {"name": "🍕 MammaMia", 'title': f'LordChannel\n720p', 'url': url_lordchannel})
                 if provider_maps['FILMPERTUTTI'] == "1":
                     url_filmpertutti = await filmpertutti(id, client)
                     if url_filmpertutti is not None:
                         print(f"Filmpertutti Found Results for {id}")
-                        streams['streams'].append({'title': 'Filmpertutti', 'url': url_filmpertutti})
+                        streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Filmpertutti', 'url': url_filmpertutti})
                 if provider_maps['TANTIFILM'] == "1":
                     TF_FAST_SEARCH = provider_maps['TF_FAST_SEARCH']
                     url_tantifilm = await tantifilm(id, client, TF_FAST_SEARCH)
@@ -319,12 +319,12 @@ async def addon_stream(request: Request, config, type, id, ):
                         print(f"TantiFilm Found Results for {id}")
                         if not isinstance(url_tantifilm, str):
                             for title, url in url_tantifilm.items():
-                                streams['streams'].append({'title': f'{HF}Tantifilm {title}', 'url': url,
+                                streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Tantifilm', 'url': url,
                                                            'behaviorHints': {'proxyHeaders': {
                                                                "request": {"Referer": "https://d000d.com/"}},
                                                                              'notWebReady': True}})
                         else:
-                            streams['streams'].append({'title': f'{HF}Tantifilm', 'url': url_tantifilm,
+                            streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Tantifilm', 'url': url_tantifilm,
                                                        'behaviorHints': {'proxyHeaders': {
                                                            "request": {"Referer": "https://d000d.com/"}},
                                                                          'notWebReady': True}})
@@ -333,7 +333,7 @@ async def addon_stream(request: Request, config, type, id, ):
                     if url_streamingwatch:
                         print(f"Streaming Watch Found Results for {id}")
                         streams['streams'].append(
-                            {'name': "MammaMia 720p", 'title': f'{HF}StreamingWatch', 'url': url_streamingwatch})
+                            {'name': "🍕 MammaMia", 'title': f'StreamingWatch 720p', 'url': url_streamingwatch})
         if not streams['streams']:
             raise HTTPException(status_code=404)
 
