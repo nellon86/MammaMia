@@ -5,7 +5,6 @@ from Src.Utilities.convert import get_TMDb_id_from_IMDb_id
 from fake_headers import Headers
 import Src.Utilities.config as config
 from Src.Utilities.loadenv import load_env
-HF = config.HF
 
 env_vars = load_env()
 ForwardProxy_list = config.ForwardProxy
