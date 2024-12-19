@@ -180,9 +180,9 @@ HTML = """
             <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/49647/pizza-emoji-clipart-md.png" alt="Logo">
         </div>
         <h1 class="name">Mamma Mia</h1>
-        <h2 class="version">v1.2.0</h2>
+        <h2 class="version">v1.2.5</h2>
         <div id="additionalText">
-            <h2>This addon provides Movie, Series, Anime, and Live TV HTTPS Streams.<br> https://github.com/UrloMythus/MammaMia/</h2>
+            <h2>This addon provides Movie, Series, Anime, and Live TV HTTPS Streams.<br> https://github.com/anput28/MammaMia/</h2>
         </div>
         <p class="description">Configure your providers: Note that if you enable Fast Search results will be less accurate but faster. <br> Filmpertutti and Tantifilm won't work if you are not using a local (on your PC) instance.</p>
         <h3 class="gives">Select Providers:</h3>
