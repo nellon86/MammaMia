@@ -201,6 +201,8 @@ async def streaming_community(imdb, client, SC_FAST_SEARCH):
                 type = "StreamingCommunity"
                 if "tt" in imdb:
                     tmdba = await get_TMDb_id_from_IMDb_id(imdb_id, client)
+                else:
+                    tmdba = imdb_id.replace("tmdb:", "")
                 show_name, date = get_info_tmdb(tmdba, ismovie, type)
         else:
             if SC_FAST_SEARCH == "1":
