@@ -2,7 +2,6 @@ import os
 import Src.Utilities.config as config
 MYSTERIUS = config.MYSTERIUS  
 dotenv = config.dotenv
-HF = config.HF
 Public_Instance = config.Public_Instance
 #You need to keep dotenv disabled on remote servers
 if dotenv == "1":
