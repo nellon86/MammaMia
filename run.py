@@ -36,7 +36,7 @@ app.state.limiter = limiter
 app.add_middleware(SlowAPIMiddleware)
 MANIFEST = {
     "id": "org.stremio.mammamia",
-    "version": "1.2.0",
+    "version": "1.2.5",
     "catalogs": [
         {
             "type": "tv",
