@@ -274,23 +274,40 @@ async def addon_stream(request: Request, config, type, id, ):
                 print(provider_maps['STREAMINGCOMMUNITY'])
                 if provider_maps['STREAMINGCOMMUNITY'] == "1":
                     SC_FAST_SEARCH = provider_maps['SC_FAST_SEARCH']
-                    url_streaming_community, url_720_streaming_community, quality_sc, slug_sc = await streaming_community(
+                    url_streaming_community, url_720_streaming_community, quality_sc, slug_sc, cookies = await streaming_community(
                         id, client, SC_FAST_SEARCH)
                     if url_streaming_community is not None:
                         print(f"StreamingCommunity Found Results for {id}")
                         if quality_sc == "1080":
                             streams['streams'].append({"name": '🍕 MammaMia',
                                                        'title': 'StreamingCommunity\n1080p',
-                                                       'url': url_streaming_community})
+                                                       'url': url_streaming_community,
+                                                       'behaviorHints': {
+                                                           'notWebReady': True,
+                                                           'proxyHeaders': {
+                                                               'request': cookies
+                                                           }
+                                                       }})
                             streams['streams'].append({"name": f'🍕 MammaMia',
                                                        'title': f'StreamingCommunity\n720p',
-                                                       'url': url_720_streaming_community})
+                                                       'url': url_720_streaming_community,
+                                                       'behaviorHints': {
+                                                           'notWebReady': True,
+                                                           'proxyHeaders': {
+                                                               'request': cookies
+                                                           }
+                                                       }})
                         else:
                             streams['streams'].append({
                                 'name': '🍕 MammaMia',
                                 'title': 'StreamingCommunity\n720p',
-                                'url': url_streaming_community
-                            })
+                                'url': url_streaming_community,
+                                'behaviorHints': {
+                                    'notWebReady': True,
+                                    'proxyHeaders': {
+                                        'request': cookies
+                                    }
+                                }})
                 if provider_maps['LORDCHANNEL'] == "1":
                     url_lordchannel, quality_lordchannel = await lordchannel(id, client)
                     if quality_lordchannel == "FULL HD" and url_lordchannel != None:

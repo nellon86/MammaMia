@@ -228,13 +228,13 @@ async def streaming_community(imdb, client, SC_FAST_SEARCH):
         if ismovie == 1:
             url, url720, quality = await get_film(tid, version)
             print("MammaMia found results for StreamingCommunity")
-            return url, url720, quality, slug
+            return url, url720, quality, slug, request_manager.cookies_header
         if ismovie == 0:
             episode_id = await get_season_episode_id(tid, slug, season, episode, version)
             print(f"Episode id: {episode_id}")
             url, url720, quality = await get_episode_link(episode_id, tid, version)
             print("MammaMia found results for StreamingCommunity")
-            return url, url720, quality, slug
+            return url, url720, quality, slug, request_manager.cookies_header
     except Exception as e:
         print("MammaMia: StreamingCommunity failed", e, traceback.format_exc())
         return None, None, None, None
