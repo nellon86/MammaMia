@@ -1,4 +1,3 @@
-import os.path
 from urllib.parse import urlparse
 
 import httpx
@@ -6,8 +5,8 @@ from playwright.async_api import async_playwright
 
 from Src.Utilities.config import SC_DOMAIN
 
-#chromium_path = "/usr/bin/chromium"
-chromium_path = os.path.join(os.getcwd(), 'chrome-win', 'chrome.exe')
+chromium_path = "/usr/bin/chromium"
+
 
 class RequestManager:
     def __init__(self):
