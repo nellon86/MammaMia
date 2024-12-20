@@ -17,6 +17,7 @@ from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from static.static import HTML
 
+SC_DOMAIN = config.SC_DOMAIN
 MYSTERIUS = config.MYSTERIUS
 DLHD = config.DLHD
 HOST = config.HOST
@@ -285,7 +286,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                                        'behaviorHints': {
                                                            'notWebReady': True,
                                                            'proxyHeaders': {
-                                                               'request': {'Referer': f'https://streamingcommunity.{config.SC_DOMAIN}'}
+                                                               'request': {'Referer': f'https://streamingcommunity.{SC_DOMAIN}'}
                                                            }
                                                        }})
                             streams['streams'].append({"name": f'🍕 MammaMia',
@@ -294,7 +295,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                                        'behaviorHints': {
                                                            'notWebReady': True,
                                                            'proxyHeaders': {
-                                                                'request': {'Referer': f'https://streamingcommunity.{config.SC_DOMAIN}'}
+                                                                'request': {'Referer': f'https://streamingcommunity.{SC_DOMAIN}'}
                                                            }
                                                        }})
                         else:
@@ -305,7 +306,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                 'behaviorHints': {
                                     'notWebReady': True,
                                     'proxyHeaders': {
-                                         'request': {'Referer': f'https://streamingcommunity.{config.SC_DOMAIN}'}
+                                         'request': {'Referer': f'https://streamingcommunity.{SC_DOMAIN}'}
                                     }
                                 }})
                 if provider_maps['LORDCHANNEL'] == "1":
