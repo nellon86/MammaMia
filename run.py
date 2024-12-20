@@ -285,7 +285,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                                        'behaviorHints': {
                                                            'notWebReady': True,
                                                            'proxyHeaders': {
-                                                               'request': cookies
+                                                               'request': {'Cookie': cookies}
                                                            }
                                                        }})
                             streams['streams'].append({"name": f'🍕 MammaMia',
@@ -294,7 +294,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                                        'behaviorHints': {
                                                            'notWebReady': True,
                                                            'proxyHeaders': {
-                                                               'request': cookies
+                                                               'request': {'Cookie': cookies}
                                                            }
                                                        }})
                         else:
@@ -305,7 +305,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                 'behaviorHints': {
                                     'notWebReady': True,
                                     'proxyHeaders': {
-                                        'request': cookies
+                                        'request': {'Cookie': cookies}
                                     }
                                 }})
                 if provider_maps['LORDCHANNEL'] == "1":
@@ -322,7 +322,8 @@ async def addon_stream(request: Request, config, type, id, ):
                     url_filmpertutti = await filmpertutti(id, client)
                     if url_filmpertutti is not None:
                         print(f"Filmpertutti Found Results for {id}")
-                        streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Filmpertutti', 'url': url_filmpertutti})
+                        streams['streams'].append(
+                            {"name": "🍕 MammaMia", 'title': 'Filmpertutti', 'url': url_filmpertutti})
                 if provider_maps['TANTIFILM'] == "1":
                     TF_FAST_SEARCH = provider_maps['TF_FAST_SEARCH']
                     url_tantifilm = await tantifilm(id, client, TF_FAST_SEARCH)
@@ -333,12 +334,12 @@ async def addon_stream(request: Request, config, type, id, ):
                                 streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Tantifilm', 'url': url,
                                                            'behaviorHints': {'proxyHeaders': {
                                                                "request": {"Referer": "https://d000d.com/"}},
-                                                                             'notWebReady': True}})
+                                                               'notWebReady': True}})
                         else:
                             streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Tantifilm', 'url': url_tantifilm,
                                                        'behaviorHints': {'proxyHeaders': {
                                                            "request": {"Referer": "https://d000d.com/"}},
-                                                                         'notWebReady': True}})
+                                                           'notWebReady': True}})
                 if provider_maps['STREAMINGWATCH'] == "1":
                     url_streamingwatch = await streamingwatch(id, client)
                     if url_streamingwatch:
@@ -350,6 +351,8 @@ async def addon_stream(request: Request, config, type, id, ):
 
     return respond_with(streams)
 
+
 if __name__ == '__main__':
     import uvicorn
+
     uvicorn.run("run:app", host=HOST, port=PORT, log_level="info")
