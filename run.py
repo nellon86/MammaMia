@@ -274,7 +274,7 @@ async def addon_stream(request: Request, config, type, id, ):
                 print(provider_maps['STREAMINGCOMMUNITY'])
                 if provider_maps['STREAMINGCOMMUNITY'] == "1":
                     SC_FAST_SEARCH = provider_maps['SC_FAST_SEARCH']
-                    url_streaming_community, url_720_streaming_community, quality_sc, slug_sc, cookies = await streaming_community(
+                    url_streaming_community, url_720_streaming_community, quality_sc, slug_sc = await streaming_community(
                         id, client, SC_FAST_SEARCH)
                     if url_streaming_community is not None:
                         print(f"StreamingCommunity Found Results for {id}")
@@ -285,7 +285,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                                        'behaviorHints': {
                                                            'notWebReady': True,
                                                            'proxyHeaders': {
-                                                               'request': {'Cookie': cookies}
+                                                               'request': {'Referer': f'https://streamingcommunity.{config.SC_DOMAIN}'}
                                                            }
                                                        }})
                             streams['streams'].append({"name": f'🍕 MammaMia',
@@ -294,7 +294,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                                        'behaviorHints': {
                                                            'notWebReady': True,
                                                            'proxyHeaders': {
-                                                               'request': {'Cookie': cookies}
+                                                                'request': {'Referer': f'https://streamingcommunity.{config.SC_DOMAIN}'}
                                                            }
                                                        }})
                         else:
@@ -305,7 +305,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                 'behaviorHints': {
                                     'notWebReady': True,
                                     'proxyHeaders': {
-                                        'request': {'Cookie': cookies}
+                                         'request': {'Referer': f'https://streamingcommunity.{config.SC_DOMAIN}'}
                                     }
                                 }})
                 if provider_maps['LORDCHANNEL'] == "1":
