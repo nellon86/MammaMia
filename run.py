@@ -17,16 +17,11 @@ from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from static.static import HTML
 
+SC_DOMAIN = config.SC_DOMAIN
 MYSTERIUS = config.MYSTERIUS
 DLHD = config.DLHD
 HOST = config.HOST
 PORT = int(config.PORT)
-HF = config.HF
-if HF == "1":
-    HF = "🤗️"
-    #Cool code to set the hugging face if the service is hosted there.
-else:
-    HF = ""
 if MYSTERIUS == "1":
     from Src.API.cool import cool
 
@@ -198,21 +193,21 @@ async def addon_stream(request: Request, config, type, id, ):
                     if 'url' in channel:
                         i = i + 1
                         streams['streams'].append({
-                            'title': f"{HF}Server {i} " + f" " + channel['name'] + " " + channel['title'],
+                            'title': f"Server {i} " + f" " + channel['name'] + " " + channel['title'],
                             'url': channel['url']
                         })
                     if id in okru:
                         i = i + 1
                         channel_url = await okru_get_url(id, client)
                         streams['streams'].append({
-                            'title': f"{HF}Server {i} " + channel['title'] + " OKRU",
+                            'title': f"Server {i} " + channel['title'] + " OKRU",
                             'url': channel_url
                         })
                     if id in extra_sources:
                         list_sources = extra_sources[id]
                         for item in list_sources:
                             i = i + 1
-                            streams['streams'].append({'title': f"{HF}Server {i} " + channel['title'], 'url': item})
+                            streams['streams'].append({'title': f"Server {i} " + channel['title'], 'url': item})
                     if id in skystreaming:
 
                         urls = await get_skystreaming(id, client)
@@ -220,7 +215,7 @@ async def addon_stream(request: Request, config, type, id, ):
                             i = i + 1
                             Host = urls[url]
                             print(url, Host)
-                            streams['streams'].append({'title': f'{HF}Server {i}', 'url': url,
+                            streams['streams'].append({'title': f'Server {i}', 'url': url,
                                                        "behaviorHints": {"notWebReady": True, "proxyHeaders": {
                                                            "request": {
                                                                "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:127.0) Gecko/20100101 Firefox/127.0",
@@ -236,18 +231,18 @@ async def addon_stream(request: Request, config, type, id, ):
                     if id in webru_vary:
                         i = i + 1
                         webru_url = await webru(id, "vary", client)
-                        streams['streams'].append({'title': f"{HF}Server {i} " + channel['title'], 'url': webru_url})
+                        streams['streams'].append({'title': f"Server {i} " + channel['title'], 'url': webru_url})
                     if id in webru_dlhd:
                         if DLHD == "1":
                             i = i + 1
                             webru_url_2 = await webru(id, "dlhd", client)
                             streams['streams'].append(
-                                {'title': f"{HF}Server {i} " + channel['title'], 'url': webru_url_2})
+                                {'title': f"Server {i} " + channel['title'], 'url': webru_url_2})
                     if id == "sky-sport-f1":
                         test = "https://mhdtv.co.in/daddy/stream.m3u8?id=577"
                         Referer1 = "https://mhdtv.co.in"
                         User_Agent1 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
-                        streams['streams'].append({'title': f'{HF}Server {i} Test mhd', 'url': test,
+                        streams['streams'].append({'title': f'Server {i} Test mhd', 'url': test,
                                                    "behaviorHints": {"notWebReady": True, "proxyHeaders": {
                                                        "request": {"User-Agent": User_Agent1, "Referer": Referer1}}}})
 
@@ -268,7 +263,7 @@ async def addon_stream(request: Request, config, type, id, ):
                                     title = "Original"
                                 elif i == 1:
                                     title = "Italian"
-                                streams['streams'].append({'title': f'{HF}Animeworld {title}', 'url': url})
+                                streams['streams'].append({'title': f'Animeworld {title}', 'url': url})
                                 i += 1
             else:
                 if MYSTERIUS == "1":
@@ -276,7 +271,7 @@ async def addon_stream(request: Request, config, type, id, ):
                     if results:
                         print(f"Mysterius Found Results for {id}")
                         for resolution, link in results.items():
-                            streams['streams'].append({'title': f'{HF}Mysterious {resolution}', 'url': link})
+                            streams['streams'].append({'title': f'Mysterious {resolution}', 'url': link})
                 print(provider_maps['STREAMINGCOMMUNITY'])
                 if provider_maps['STREAMINGCOMMUNITY'] == "1":
                     SC_FAST_SEARCH = provider_maps['SC_FAST_SEARCH']
@@ -287,16 +282,49 @@ async def addon_stream(request: Request, config, type, id, ):
                         if quality_sc == "1080":
                             streams['streams'].append({"name": '🍕 MammaMia',
                                                        'title': 'StreamingCommunity\n1080p',
-                                                       'url': url_streaming_community})
+                                                       'url': url_streaming_community,
+                                                       'behaviorHints': {
+                                                           'notWebReady': True,
+                                                           'proxyHeaders': {
+                                                               'request': {
+                                                                   'Referer': f'https://streamingcommunity.{SC_DOMAIN}',
+                                                                   'Host': 'vixcloud.co',
+                                                                   'Sec-Fetch-Dest': 'iframe',
+                                                                   'Sec-Fetch-Mode': 'navigate',
+                                                                   'Sec-Fetch-Site': 'cross-site'
+                                                               }
+                                                           }
+                                                       }})
                             streams['streams'].append({"name": f'🍕 MammaMia',
                                                        'title': f'StreamingCommunity\n720p',
-                                                       'url': url_720_streaming_community})
+                                                       'url': url_720_streaming_community,
+                                                       'behaviorHints': {
+                                                           'notWebReady': True,
+                                                           'request': {
+                                                               'Referer': f'https://streamingcommunity.{SC_DOMAIN}',
+                                                               'Host': 'vixcloud.co',
+                                                               'Sec-Fetch-Dest': 'iframe',
+                                                               'Sec-Fetch-Mode': 'navigate',
+                                                               'Sec-Fetch-Site': 'cross-site'
+                                                           }
+                                                       }})
                         else:
                             streams['streams'].append({
                                 'name': '🍕 MammaMia',
                                 'title': 'StreamingCommunity\n720p',
-                                'url': url_streaming_community
-                            })
+                                'url': url_streaming_community,
+                                'behaviorHints': {
+                                    'notWebReady': True,
+                                    'proxyHeaders': {
+                                        'request': {
+                                            'Referer': f'https://streamingcommunity.{SC_DOMAIN}',
+                                            'Host': 'vixcloud.co',
+                                            'Sec-Fetch-Dest': 'iframe',
+                                            'Sec-Fetch-Mode': 'navigate',
+                                            'Sec-Fetch-Site': 'cross-site'
+                                        }
+                                    }
+                                }})
                 if provider_maps['LORDCHANNEL'] == "1":
                     url_lordchannel, quality_lordchannel = await lordchannel(id, client)
                     if quality_lordchannel == "FULL HD" and url_lordchannel != None:
@@ -311,7 +339,8 @@ async def addon_stream(request: Request, config, type, id, ):
                     url_filmpertutti = await filmpertutti(id, client)
                     if url_filmpertutti is not None:
                         print(f"Filmpertutti Found Results for {id}")
-                        streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Filmpertutti', 'url': url_filmpertutti})
+                        streams['streams'].append(
+                            {"name": "🍕 MammaMia", 'title': 'Filmpertutti', 'url': url_filmpertutti})
                 if provider_maps['TANTIFILM'] == "1":
                     TF_FAST_SEARCH = provider_maps['TF_FAST_SEARCH']
                     url_tantifilm = await tantifilm(id, client, TF_FAST_SEARCH)
@@ -322,12 +351,12 @@ async def addon_stream(request: Request, config, type, id, ):
                                 streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Tantifilm', 'url': url,
                                                            'behaviorHints': {'proxyHeaders': {
                                                                "request": {"Referer": "https://d000d.com/"}},
-                                                                             'notWebReady': True}})
+                                                               'notWebReady': True}})
                         else:
                             streams['streams'].append({"name": "🍕 MammaMia", 'title': 'Tantifilm', 'url': url_tantifilm,
                                                        'behaviorHints': {'proxyHeaders': {
                                                            "request": {"Referer": "https://d000d.com/"}},
-                                                                         'notWebReady': True}})
+                                                           'notWebReady': True}})
                 if provider_maps['STREAMINGWATCH'] == "1":
                     url_streamingwatch = await streamingwatch(id, client)
                     if url_streamingwatch:
@@ -339,6 +368,8 @@ async def addon_stream(request: Request, config, type, id, ):
 
     return respond_with(streams)
 
+
 if __name__ == '__main__':
     import uvicorn
+
     uvicorn.run("run:app", host=HOST, port=PORT, log_level="info")

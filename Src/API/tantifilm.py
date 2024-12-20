@@ -4,7 +4,6 @@ import time
 from Src.Utilities.info import is_movie,get_info_imdb,get_info_tmdb
 import Src.Utilities.config as config
 from Src.Utilities.loadenv import load_env
-HF = config.HF
 env_vars = load_env()
 PROXY_CREDENTIALS = env_vars.get('PROXY_CREDENTIALS')
 ForwardProxy_list = config.ForwardProxy
@@ -159,24 +158,9 @@ async def true_url(protect_link,client):
         "Range": "bytes=0-",
         "Referer": "https://d000d.com/",
     }
-    if HF == "1":
-        import random
-        import json
-        print(PROXY_CREDENTIALS)
-        proxy_list = json.loads(PROXY_CREDENTIALS)
-        proxy = random.choice(proxy_list)
-        if proxy == "":
-            proxies = {}
-        else:
-            proxies = {
-                "http": proxy,
-                "https": proxy
-            }   
-        response = await client.head(protect_link, allow_redirects=True, impersonate = "chrome120", proxies = proxies)
-        doodstream_url = response.url
-    else:
-        proxies = {}
-        doodstream_url = protect_link
+
+    proxies = {}
+    doodstream_url = protect_link
     response = await client.get(ForwardProxy + doodstream_url, allow_redirects=True, impersonate = "chrome120", proxies = proxies)
  
     

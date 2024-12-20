@@ -90,7 +90,7 @@ async def get_film(tid, version):
     expires = re.search(r"'expires':\s*'(\d+)'", script).group(1)
     quality = re.search(r'"quality":(\d+)', script).group(1)
 
-    url = f'https://vixcloud.co/playlist/{vixid}.m3u8?expires={expires}'
+    url = f'https://vixcloud.co/playlist/{vixid}.m3u8?token={token}&expires={expires}'
 
     parsed_url = urlparse(iframe)
     query_params = parse_qs(parsed_url.query)
@@ -146,7 +146,7 @@ async def get_episode_link(episode_id, tid, version):
     expires = re.search(r"'expires':\s*'(\d+)'", script).group(1)
     quality = re.search(r'"quality":(\d+)', script).group(1)
 
-    url = f'https://vixcloud.co/playlist/{vixid}.m3u8?expires={expires}'
+    url = f'https://vixcloud.co/playlist/{vixid}.m3u8?token={token}&expires={expires}&referer=1'
 
     parsed_url = urlparse(iframe)
     query_params = parse_qs(parsed_url.query)
