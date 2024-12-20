@@ -300,8 +300,12 @@ async def addon_stream(request: Request, config, type, id, ):
                                                        'url': url_720_streaming_community,
                                                        'behaviorHints': {
                                                            'notWebReady': True,
-                                                           'proxyHeaders': {
-                                                                'request': {'Referer': f'https://streamingcommunity.{SC_DOMAIN}'}
+                                                           'request': {
+                                                               'Referer': f'https://streamingcommunity.{SC_DOMAIN}',
+                                                               'Host': 'vixcloud.co',
+                                                               'Sec-Fetch-Dest': 'iframe',
+                                                               'Sec-Fetch-Mode': 'navigate',
+                                                               'Sec-Fetch-Site': 'cross-site'
                                                            }
                                                        }})
                         else:
@@ -312,7 +316,13 @@ async def addon_stream(request: Request, config, type, id, ):
                                 'behaviorHints': {
                                     'notWebReady': True,
                                     'proxyHeaders': {
-                                         'request': {'Referer': f'https://streamingcommunity.{SC_DOMAIN}'}
+                                        'request': {
+                                            'Referer': f'https://streamingcommunity.{SC_DOMAIN}',
+                                            'Host': 'vixcloud.co',
+                                            'Sec-Fetch-Dest': 'iframe',
+                                            'Sec-Fetch-Mode': 'navigate',
+                                            'Sec-Fetch-Site': 'cross-site'
+                                        }
                                     }
                                 }})
                 if provider_maps['LORDCHANNEL'] == "1":
